@@ -12,6 +12,19 @@ Import OBJ models into your three.js scene (WebGL). Using this package along wit
 # Usage
 
 ```javascript
+import ObjectModel from 'react-three-renderer-objects';
+
+<ObjectModel
+  material={material}
+  model={model}
+  scene={scene}
+  group="groupName"
+/>
+```
+
+# Example scene
+
+```javascript
 import * as THREE from "three";
 
 import React from "react";
