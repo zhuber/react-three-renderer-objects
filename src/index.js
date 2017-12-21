@@ -14,7 +14,7 @@ class ObjectModel extends React.Component {
     };
   }
 
-  componentDidMount() {
+  _loadAssets(props) {
     // Swap state function for loading completion.
     const finishedLoading = (object) => {
       return this.setState({
@@ -23,62 +23,65 @@ class ObjectModel extends React.Component {
       });
     }
 
-    const props = this.props;
     const scene = props.scene;
     const group = scene.getObjectByName(props.group);
+    const threeLoader = THREE;
+    const OBJLoader = ObjectLoader.default;
+    const MTLLoader = MaterialLoader.default;
+    OBJLoader(threeLoader);
 
-    if (scene.type && scene.type === 'Scene') {
-      const threeLoader = THREE;
-      const OBJLoader = ObjectLoader.default;
-      const MTLLoader = MaterialLoader.default;
-      OBJLoader(threeLoader);
+    // Load object files
+    const materials = new MTLLoader();
+    materials.load(props.material, function(material) {
+      material.preload();
 
-      // Load object files
-      const materials = new MTLLoader();
-      materials.load(props.material, function(material) {
-        material.preload();
-
-        const loader = new threeLoader.OBJLoader();
-        loader.setMaterials(material);
-        // Load the resource
-        loader.load(
-          props.model,
-          function (object) {
-            if (props.position) {
-              object.position.x = props.position.x;
-              object.position.y = props.position.y;
-              object.position.z = props.position.z;
-            }
-            if (props.rotation) {
-              object.rotation._x = props.rotation._x;
-              object.rotation._y = props.rotation._y;
-              object.rotation._z = props.rotation._z;
-            }
-            if (props.scale) {
-              object.scale.x = props.scale.x;
-              object.scale.y = props.scale.y;
-              object.scale.z = props.scale.z;
-            }
-            object.name = 'testObject';
-            group.add(object);
-            finishedLoading(object.name);
-          },
-          function (xhr) {
-            // Loading is in progress
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-          },
-          function (error) {
-            console.log('An error happened');
-            console.log(error);
+      const loader = new threeLoader.OBJLoader();
+      loader.setMaterials(material);
+      // Load the resource
+      loader.load(
+        props.model,
+        function (object) {
+          if (props.position) {
+            object.position.x = props.position.x;
+            object.position.y = props.position.y;
+            object.position.z = props.position.z;
           }
-        );
-      });
+          if (props.rotation) {
+            object.rotation._x = props.rotation._x;
+            object.rotation._y = props.rotation._y;
+            object.rotation._z = props.rotation._z;
+          }
+          if (props.scale) {
+            object.scale.x = props.scale.x;
+            object.scale.y = props.scale.y;
+            object.scale.z = props.scale.z;
+          }
+          object.name = 'testObject';
+          group.add(object);
+          finishedLoading(object.name);
+        },
+        function (xhr) {
+          // Loading is in progress
+          console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        },
+        function (error) {
+          console.log('An error happened');
+          console.log(error);
+        }
+      );
+    });
+  }
+
+  componentDidMount() {
+    const scene = this.props.scene;
+    if (!this.state.loaded && scene.type && scene.type === 'Scene') {
+      this._loadAssets(this.props);
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
     const scene = nextProps.scene;
-    if (this.state.object) {
+    if (this.state.loaded && this.state.object.length > 0) {
       const renderedObject = scene.getObjectByName(this.state.object);
       if (nextProps.position) {
           renderedObject.position.x = nextProps.position.x;
@@ -95,7 +98,21 @@ class ObjectModel extends React.Component {
           renderedObject.scale.y = nextProps.scale.y;
           renderedObject.scale.z = nextProps.scale.z;
         }
+    } else if (scene.type && scene.type === 'Scene') {
+      this._loadAssets(nextProps);
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Only load objects once.
+    if (
+      this.state.loaded === nextState.loaded &&
+      this.props.scene &&
+      this.props.scene.type === 'Scene'
+    ) {
+      return false;
+    }
+    return true;
   }
 
   render() {
