@@ -98,18 +98,6 @@ class ObjectModel extends React.Component {
     }
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.props.group !== nextProps.group) {
-  //     return true;
-  //   } else if (this.props.position !== nextProps.position) {
-  //     return true;
-  //   } else if (this.props.rotation !== nextProps.rotation) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   render() {
     return (null);
   }
