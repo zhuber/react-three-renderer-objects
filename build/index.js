@@ -45492,9 +45492,9 @@ var ObjectModel = function (_React$Component) {
               object.rotation._z = props.rotation._z;
             }
             if (props.scale) {
-              renderedObject.scale.x = props.scale.x;
-              renderedObject.scale.y = props.scale.y;
-              renderedObject.scale.z = props.scale.z;
+              object.scale.x = props.scale.x;
+              object.scale.y = props.scale.y;
+              object.scale.z = props.scale.z;
             }
             object.name = 'testObject';
             group.add(object);
@@ -45514,37 +45514,24 @@ var ObjectModel = function (_React$Component) {
     value: function componentWillUpdate(nextProps, nextState) {
       var scene = nextProps.scene;
       if (this.state.object) {
-        var _renderedObject = scene.getObjectByName(this.state.object);
+        var renderedObject = scene.getObjectByName(this.state.object);
         if (nextProps.position) {
-          _renderedObject.position.x = nextProps.position.x;
-          _renderedObject.position.y = nextProps.position.y;
-          _renderedObject.position.z = nextProps.position.z;
+          renderedObject.position.x = nextProps.position.x;
+          renderedObject.position.y = nextProps.position.y;
+          renderedObject.position.z = nextProps.position.z;
         }
         if (nextProps.rotation) {
-          _renderedObject.rotation._x = nextProps.rotation._x;
-          _renderedObject.rotation._y = nextProps.rotation._y;
-          _renderedObject.rotation._z = nextProps.rotation._z;
+          renderedObject.rotation._x = nextProps.rotation._x;
+          renderedObject.rotation._y = nextProps.rotation._y;
+          renderedObject.rotation._z = nextProps.rotation._z;
         }
         if (nextProps.scale) {
-          _renderedObject.scale.x = nextProps.scale.x;
-          _renderedObject.scale.y = nextProps.scale.y;
-          _renderedObject.scale.z = nextProps.scale.z;
+          renderedObject.scale.x = nextProps.scale.x;
+          renderedObject.scale.y = nextProps.scale.y;
+          renderedObject.scale.z = nextProps.scale.z;
         }
       }
     }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //   if (this.props.group !== nextProps.group) {
-    //     return true;
-    //   } else if (this.props.position !== nextProps.position) {
-    //     return true;
-    //   } else if (this.props.rotation !== nextProps.rotation) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
   }, {
     key: "render",
     value: function render() {

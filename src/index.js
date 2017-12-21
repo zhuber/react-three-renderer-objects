@@ -55,9 +55,9 @@ class ObjectModel extends React.Component {
               object.rotation._z = props.rotation._z;
             }
             if (props.scale) {
-              renderedObject.scale.x = props.scale.x;
-              renderedObject.scale.y = props.scale.y;
-              renderedObject.scale.z = props.scale.z;
+              object.scale.x = props.scale.x;
+              object.scale.y = props.scale.y;
+              object.scale.z = props.scale.z;
             }
             object.name = 'testObject';
             group.add(object);
