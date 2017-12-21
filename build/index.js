@@ -45463,8 +45463,10 @@ var ObjectModel = function (_React$Component) {
       };
 
       var props = this.props;
-      var group = props.group;
-      if (group.type && group.type === 'Scene') {
+      var scene = props.scene;
+      var group = scene.getObjectByName(props.group);
+
+      if (scene.type && scene.type === 'Scene') {
         var threeLoader = THREE;
         var OBJLoader = ObjectLoader.default;
         var MTLLoader = MaterialLoader.default;
@@ -45510,9 +45512,9 @@ var ObjectModel = function (_React$Component) {
   }, {
     key: "componentWillUpdate",
     value: function componentWillUpdate(nextProps, nextState) {
-      var group = nextProps.group;
+      var scene = nextProps.scene;
       if (this.state.object) {
-        var _renderedObject = group.getObjectByName(this.state.object);
+        var _renderedObject = scene.getObjectByName(this.state.object);
         if (nextProps.position) {
           _renderedObject.position.x = nextProps.position.x;
           _renderedObject.position.y = nextProps.position.y;

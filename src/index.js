@@ -24,8 +24,10 @@ class ObjectModel extends React.Component {
     }
 
     const props = this.props;
-    const group = props.group;
-    if (group.type && group.type === 'Scene') {
+    const scene = props.scene;
+    const group = scene.getObjectByName(props.group);
+
+    if (scene.type && scene.type === 'Scene') {
       const threeLoader = THREE;
       const OBJLoader = ObjectLoader.default;
       const MTLLoader = MaterialLoader.default;
@@ -75,9 +77,9 @@ class ObjectModel extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const group = nextProps.group;
+    const scene = nextProps.scene;
     if (this.state.object) {
-      const renderedObject = group.getObjectByName(this.state.object);
+      const renderedObject = scene.getObjectByName(this.state.object);
       if (nextProps.position) {
           renderedObject.position.x = nextProps.position.x;
           renderedObject.position.y = nextProps.position.y;
