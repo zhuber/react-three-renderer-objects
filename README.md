@@ -4,6 +4,7 @@
 Import OBJ models into your three.js scene (WebGL). Using this package along with react-three-renderer will allow you to easily place fully rendered 3D objects (models with associated materials).
 
 # Options
+- Name (required)
 - Model
 - Material
 - Position
@@ -18,6 +19,7 @@ Import OBJ models into your three.js scene (WebGL). Using this package along wit
 import ObjectModel from 'react-three-renderer-objects';
 
 <ObjectModel
+  name="objectName"
   model={model}
   material={material}
   position={new THREE.Vector3(0, 0, 0)}
@@ -73,8 +75,9 @@ class DemoScene extends React.Component {
             lookAt={new THREE.Vector3(0, 0, 0)}
           />
 
-          <group name="exampleGroup" rotation={groupRotation}>
+          <group name="exampleGroup">
             <ObjectModel
+              name="exampleObject"
               material={exampleMaterial}
               model={exampleObject}
               scene={this.state.scene}
