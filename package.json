@@ -1,6 +1,6 @@
 {
   "name": "react-three-renderer-objects",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Load 3D objects and materials in react-three-renderer",
   "main": "build/index.js",
   "peerDependencies": {
