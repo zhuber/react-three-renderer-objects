@@ -45469,41 +45469,47 @@ var ObjectModel = function (_React$Component) {
       var MTLLoader = MaterialLoader.default;
       OBJLoader(threeLoader);
 
-      // Load object files
-      var materials = new MTLLoader();
-      materials.load(props.material, function (material) {
-        material.preload();
+      // Check to make sure we don't add the same item multiple times (causes issues).
+      var renderedObject = scene.getObjectByName(props.name);
+      if (!renderedObject) {
+        // Load object files
+        var materials = new MTLLoader();
+        materials.load(props.material, function (material) {
+          material.preload();
 
-        var loader = new threeLoader.OBJLoader();
-        loader.setMaterials(material);
-        // Load the resource
-        loader.load(props.model, function (object) {
-          if (props.position) {
-            object.position.x = props.position.x;
-            object.position.y = props.position.y;
-            object.position.z = props.position.z;
-          }
-          if (props.rotation) {
-            object.rotation._x = props.rotation._x;
-            object.rotation._y = props.rotation._y;
-            object.rotation._z = props.rotation._z;
-          }
-          if (props.scale) {
-            object.scale.x = props.scale.x;
-            object.scale.y = props.scale.y;
-            object.scale.z = props.scale.z;
-          }
-          object.name = 'testObject';
-          group.add(object);
-          finishedLoading(object.name);
-        }, function (xhr) {
-          // Loading is in progress
-          console.log(xhr.loaded / xhr.total * 100 + '% loaded');
-        }, function (error) {
-          console.log('An error happened');
-          console.log(error);
+          var loader = new threeLoader.OBJLoader();
+          loader.setMaterials(material);
+          // Load the resource
+          loader.load(props.model, function (object) {
+            if (props.position) {
+              object.position.x = props.position.x;
+              object.position.y = props.position.y;
+              object.position.z = props.position.z;
+            }
+            if (props.rotation) {
+              object.rotation._x = props.rotation._x;
+              object.rotation._y = props.rotation._y;
+              object.rotation._z = props.rotation._z;
+            }
+            if (props.scale) {
+              object.scale.x = props.scale.x;
+              object.scale.y = props.scale.y;
+              object.scale.z = props.scale.z;
+            }
+            object.name = props.name;
+            group.add(object);
+            finishedLoading(object.name);
+          }, function (xhr) {
+            // Loading is in progress
+            if (props.debug) {
+              console.log(xhr.loaded / xhr.total * 100 + '% loaded');
+            }
+          }, function (error) {
+            console.log('An error happened');
+            console.log(error);
+          });
         });
-      });
+      }
     }
   }, {
     key: "componentDidMount",
@@ -45518,7 +45524,7 @@ var ObjectModel = function (_React$Component) {
     value: function componentWillUpdate(nextProps, nextState) {
       var scene = nextProps.scene;
       if (this.state.loaded && this.state.object.length > 0) {
-        var renderedObject = scene.getObjectByName(this.state.object);
+        var renderedObject = scene.getObjectByName(props.name);
         if (nextProps.position) {
           renderedObject.position.x = nextProps.position.x;
           renderedObject.position.y = nextProps.position.y;
