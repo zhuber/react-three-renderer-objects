@@ -88,7 +88,7 @@ class ObjectModel extends React.Component {
   componentWillUpdate(nextProps, nextState) {
     const scene = nextProps.scene;
     if (this.state.loaded && this.state.object.length > 0) {
-      const renderedObject = scene.getObjectByName(props.name);
+      const renderedObject = scene.getObjectByName(this.props.name);
       if (nextProps.position) {
           renderedObject.position.x = nextProps.position.x;
           renderedObject.position.y = nextProps.position.y;

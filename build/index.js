@@ -45524,7 +45524,7 @@ var ObjectModel = function (_React$Component) {
     value: function componentWillUpdate(nextProps, nextState) {
       var scene = nextProps.scene;
       if (this.state.loaded && this.state.object.length > 0) {
-        var renderedObject = scene.getObjectByName(props.name);
+        var renderedObject = scene.getObjectByName(this.props.name);
         if (nextProps.position) {
           renderedObject.position.x = nextProps.position.x;
           renderedObject.position.y = nextProps.position.y;
